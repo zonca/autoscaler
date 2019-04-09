@@ -23,7 +23,11 @@ import (
 	"net/http"
 	"strings"
 	"time"
-
+	"github.com/gophercloud/gophercloud"
+	"github.com/gophercloud/gophercloud/openstack"
+	"github.com/gophercloud/gophercloud/openstack/containerinfra/v1/clusters"
+	"github.com/gophercloud/gophercloud/openstack/orchestration/v1/stackresources"
+	"github.com/gophercloud/gophercloud/openstack/orchestration/v1/stacks"
 	"github.com/satori/go.uuid"
 	"gopkg.in/gcfg.v1"
 	netutil "k8s.io/apimachinery/pkg/util/net"
@@ -56,8 +60,6 @@ var statusesPreventingUpdate = sets.NewString(
 )
 
 // magnumManagerHeat implements the magnumManager interface.
-//
-// Most interactions with the cluster are done directly with magnum,
 // but scaling down requires an intermediate step using heat to
 // delete the specific nodes that the autoscaler has picked for removal.
 type magnumManagerHeat struct {
