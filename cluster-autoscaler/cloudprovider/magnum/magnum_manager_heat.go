@@ -146,6 +146,23 @@ func createMagnumManagerHeat(configReader io.Reader, discoverOpts cloudprovider.
 		return nil, fmt.Errorf("could not store kube minions stack name/ID on manager: %v", err)
 	}
 
+	stack, err := stacks.Get(manager.heatClient, manager.kubeMinionsStackName, manager.kubeMinionsStackID).Extract()
+	if err != nil {
+		return nil, fmt.Errorf("could not get kube_minions nested stack from heat: %v", err)
+	}
+
+	var IDToIndex = make(map[string]string)
+	for _, output := range stack.Outputs {
+        klog.V(0).Infof("output %+v", output)
+		if output["output_key"] == "refs_map" {
+			minionsMapInterface := output["output_value"].(map[string]interface{})
+			for index, ID := range minionsMapInterface {
+				IDToIndex[ID.(string)] = index
+			}
+		}
+	}
+	klog.V(0).Infof("IDToIndex %+v", IDToIndex)
+
 	return &manager, nil
 }
 
