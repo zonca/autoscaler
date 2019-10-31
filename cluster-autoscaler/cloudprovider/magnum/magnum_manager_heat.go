@@ -286,6 +286,7 @@ func (mgr *magnumManagerHeat) getStackName(stackID string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("could not find stack with ID %s: %v", mgr.stackID, err)
 	}
+	klog.V(0).Infof("Zonca")
 	klog.V(0).Infof("For stack ID %s, stack name is %s", mgr.stackID, stack.Name)
 	return stack.Name, nil
 }
