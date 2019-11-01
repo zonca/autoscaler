@@ -154,7 +154,7 @@ func createMagnumManagerHeat(configReader io.Reader, discoverOpts cloudprovider.
 	var IDToIndex = make(map[string]string)
 	for _, output := range stack.Outputs {
         klog.V(0).Infof("output %+v", output)
-        if output["output_key"] == "kube_minion_ip" {
+		if output["output_key"] == "refs_map" {
 			minionsMapInterface := output["output_value"].(map[string]interface{})
 			for index, ID := range minionsMapInterface {
 				IDToIndex[ID.(string)] = index
@@ -354,13 +354,12 @@ func (mgr *magnumManagerHeat) findStackIndices(nodeRefs []NodeRef) ([]string, er
 
 	notFound := 0
 	for _, ref := range nodeRefs {
-		if index, found := stackIndexFromID(IDToIndex, ref); found {
-			klog.V(0).Infof("Resolved node %s to stack index %s", ref.Name, index)
-			indices = append(indices, index)
-		} else {
-			klog.V(0).Infof("Could not resolve node %+v to a stack index", ref)
-			notFound += 1
-		}
+        id, err := uuid.FromString(ref.MachineID)
+        if err == nil {
+            indices = append(indices, id.String())
+        } else {
+            notFound += 1
+        }
 	}
 
 	if notFound > 0 {
