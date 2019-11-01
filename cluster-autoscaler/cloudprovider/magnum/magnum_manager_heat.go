@@ -154,7 +154,7 @@ func createMagnumManagerHeat(configReader io.Reader, discoverOpts cloudprovider.
 	var IDToIndex = make(map[string]string)
 	for _, output := range stack.Outputs {
         klog.V(0).Infof("output %+v", output)
-		if output["output_key"] == "refs_map" {
+        if output["output_key"] == "kube_minion_ip" {
 			minionsMapInterface := output["output_value"].(map[string]interface{})
 			for index, ID := range minionsMapInterface {
 				IDToIndex[ID.(string)] = index
