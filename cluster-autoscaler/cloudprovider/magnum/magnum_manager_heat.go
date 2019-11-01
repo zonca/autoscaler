@@ -378,6 +378,8 @@ func stackIndexFromID(IDToIndex map[string]string, nodeRef NodeRef) (string, boo
 	// Parsing the MachineID and getting the string output gives the correct format.
 	// If the MachineID does not parse (maybe it is empty) then it will not be checked, it will not cause an error.
 	id, err := uuid.FromString(nodeRef.MachineID)
+    klog.V(0).Infof("machineID: %s", nodeRef.MachineID)
+    klog.V(0).Infof("id: %s", id.String())
 	if err == nil {
 		machineID := id.String()
 		if index, found := IDToIndex[machineID]; found {
