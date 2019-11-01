@@ -82,15 +82,15 @@ var (
 	cloudConfig            = flag.String("cloud-config", "", "The path to the cloud provider configuration file.  Empty string for no configuration file.")
 	namespace              = flag.String("namespace", "kube-system", "Namespace in which cluster-autoscaler run.")
 	scaleDownEnabled       = flag.Bool("scale-down-enabled", true, "Should CA scale down the cluster")
-	scaleDownDelayAfterAdd = flag.Duration("scale-down-delay-after-add", 10*time.Minute,
+	scaleDownDelayAfterAdd = flag.Duration("scale-down-delay-after-add", 1*time.Minute,
 		"How long after scale up that scale down evaluation resumes")
 	scaleDownDelayAfterDelete = flag.Duration("scale-down-delay-after-delete", 0,
 		"How long after node deletion that scale down evaluation resumes, defaults to scanInterval")
 	scaleDownDelayAfterFailure = flag.Duration("scale-down-delay-after-failure", 3*time.Minute,
 		"How long after scale down failure that scale down evaluation resumes")
-	scaleDownUnneededTime = flag.Duration("scale-down-unneeded-time", 10*time.Minute,
+	scaleDownUnneededTime = flag.Duration("scale-down-unneeded-time", 1*time.Minute,
 		"How long a node should be unneeded before it is eligible for scale down")
-	scaleDownUnreadyTime = flag.Duration("scale-down-unready-time", 20*time.Minute,
+	scaleDownUnreadyTime = flag.Duration("scale-down-unready-time", 1*time.Minute,
 		"How long an unready node should be unneeded before it is eligible for scale down")
 	scaleDownUtilizationThreshold = flag.Float64("scale-down-utilization-threshold", 0.5,
 		"Sum of cpu or memory of all pods running on the node divided by node's corresponding allocatable resource, below which a node can be considered for scale down")
